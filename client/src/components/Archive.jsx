@@ -102,5 +102,5 @@ export const Archive = () => {
     }
   }
 
-  return <>{archivedList()}</>;
+  return archivedList();
 };

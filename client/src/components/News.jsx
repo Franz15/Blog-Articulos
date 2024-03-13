@@ -9,8 +9,6 @@ const socket = io("http://localhost:5555");
 
 export const News = () => {
   const [articles, setArticles] = useState([]);
-  const [show, setShow] = useState(false);
-  const [selected, setSelected] = useState();
 
   useEffect(() => {
     getNews();
@@ -23,12 +21,8 @@ export const News = () => {
     };
   }, []);
 
-  const handleModal = (props) => {
-    setSelected(props);
-    setShow(true);
-  };
   const getNews = async () => {
-    setShow(false);
+
     const response = await fetch(Global.url + "list", {
       method: "POST",
       headers: {
@@ -62,7 +56,7 @@ export const News = () => {
   };
 
   const archiveArticle = (id) => {
-    setShow(false);
+
     Archive(id);
     const newArticles = articles.filter((el) => el._id !== id);
     setArticles(newArticles);
@@ -122,40 +116,5 @@ export const News = () => {
     }
   }
 
-  return newsList() /* <>
-   <Modal
-        show={show}
-        size="lg"
-        onHide={() => setShow(false)}
-        dialogClassName="modal-90w"
-        aria-labelledby="custom-modal-styling-title"
-      >
-        <Modal.Header closeButton>
-          {selected ? (
-                  <Modal.Title id="modal-title" >{selected.title} </Modal.Title>
-                ) : (
-                  <Modal.Title id="modal-title"> </Modal.Title>
-                )}
-         
-        </Modal.Header>
-        <Modal.Body> 
-          {selected ? (
-                  <Modal.Body id ="modal-body">
-                    <Card.Subtitle className="mb-2 text-muted">{selected.author}</Card.Subtitle>
-                 
-                {selected.content}
-                  <br/>
-                  <Card.Subtitle className="mb-2 text-muted"><small>{moment(selected.date).format("DD-MM-YYYY")}</small></Card.Subtitle>
-                </Modal.Body>
-                ) : (
-                  <Modal.Title id="modal-title"> </Modal.Title>
-                )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary"  onClick={() => archiveArticle(selected._id)}>
-            Archive
-          </Button>
-          <Button variant="primary" onClick={() => setShow(false)}>Close</Button>
-        </Modal.Footer>
-    </Modal>*/;
+  return newsList();
 };

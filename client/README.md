@@ -3,6 +3,9 @@
 
 
 2. To start the development server, run npm run dev. This command will start the server using Vite.
+
+This will set up locally in http://localhost:5173/
+
 3. For building the production version of the application, run npm run build.
 4. To preview the production build locally, run npm run preview.
 
