@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 
 export const Archive = () => {
   const [archived, setArchived] = useState();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getArchived();
@@ -26,6 +27,29 @@ export const Archive = () => {
     }
     const archivedArt = await response.json();
     setArchived(archivedArt.articles);
+    setLoading(false);
+  };
+
+  const Archive = async (id) => {
+    const request = await fetch(Global.url + id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await request.json();
+
+    if (data.status == "success") {
+      return data.status;
+    } else {
+    }
+  };
+
+  const archiveArticle = (id) => {
+    Archive(id);
+    const newArchived = archived.filter((el) => el._id !== id);
+    setArchived(newArchived);
   };
 
   const Delete = async (id) => {
@@ -50,52 +74,69 @@ export const Archive = () => {
   };
 
   function archivedList() {
-    if (archived && archived.length > 0) {
+    if (loading) {
+      return (
+        <div className="d-flex justify-content-center align-items-center vh-100">
+          <div className="spinner-border" role="status">
+            <span className="sr-only"></span>
+          </div>
+        </div>
+      );
+    } else if (archived && archived.length > 0) {
       return archived.map((article) => {
         return (
           <Card
-            style={{ marginTop: 20, margin: 50 }}
-            bg={"light"}
+            className="mt-4 mx-auto w-75"
             key={article._id}
+            style={{
+              backgroundColor: "#f8f9fa",
+              borderColor: "#e0e0e0",
+              borderRadius: "10px",
+              boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+            }}
           >
-            <Card.Body style={{ padding: 20 }}>
-              <Card.Title className="title text-center">
+            <Card.Body className="p-4">
+              <Card.Title className="text-center">
                 {article.title}
                 <br />
                 <small className="text-muted">{article.author}</small>
               </Card.Title>
 
-              <Card.Subtitle style={{ marginTop: 20 }}>
+              <Card.Subtitle className="mt-3 text-secondary">
                 {article.description}
               </Card.Subtitle>
 
-              <Card.Text style={{ marginTop: 10 }}>
-                {article.description}
-                <br />
-                {article.content}
-              </Card.Text>
-              <Card.Footer>
+              <Card.Text className="mt-3">{article.content}</Card.Text>
+
+              <div className="d-flex justify-content-between align-items-center mt-4">
                 <small className="text-muted">
                   {moment(article.archiveDate).format("DD-MM-YYYY")}
                 </small>
-              </Card.Footer>
-
-              <Button
-                variant="danger"
-                style={{ marginTop: 10 }}
-                onClick={() => deleteArticle(article._id)}
-              >
-                Delete
-              </Button>
+                <div>
+                  <Button
+                    variant="secondary"
+                    onClick={() => archiveArticle(article._id)}
+                    className="me-2"
+                  >
+                    Unarchive
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => deleteArticle(article._id)}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </div>
             </Card.Body>
           </Card>
         );
       });
     } else {
       return (
-        <Card style={{ marginTop: 20, margin: 50 }} bg={"light"}>
+        <Card className="mt-4 mx-auto w-75" bg={"light"}>
           <Card.Body style={{ padding: 20 }}>
-            <Card.Text>Nothing to show</Card.Text>
+            <Card.Text>Nada que mostrar</Card.Text>
           </Card.Body>
         </Card>
       );
