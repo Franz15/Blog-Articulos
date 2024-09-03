@@ -30,23 +30,17 @@ const listArticles = (req, res) => {
 
 const saveArticle = async (req, res) => {
   try {
-    // Recoger datos del body
     const params = req.body;
-
-    // Crear y rellenar el objeto del modelo
     let newArticle = new Article(params);
 
-    // Guardar objeto en BBDD
     const articleStored = await newArticle.save();
 
-    // Si se guarda correctamente, devolver respuesta
     return res.status(200).send({
       status: "success",
       message: "Artículo guardado correctamente",
       article: articleStored,
     });
   } catch (error) {
-    // Manejo de errores
     return res.status(500).send({
       status: "error",
       message: "Artículo no guardado",
@@ -65,7 +59,6 @@ const toggleArchiveArticle = (req, res) => {
     });
   }
 
-  // Buscar el artículo por su ID
   Article.findById(articleId)
     .then((article) => {
       if (!article) {
@@ -74,12 +67,10 @@ const toggleArchiveArticle = (req, res) => {
           message: "Article not found",
         });
       }
-      // Determinar si se debe archivar o desarchivar
       let update = article.archiveDate
-        ? { $unset: { archiveDate: "" } } // Desarchivar (eliminar archiveDate)
-        : { $set: { archiveDate: Date.now() } }; // Archivar (establecer archiveDate)
+        ? { $unset: { archiveDate: "" } }
+        : { $set: { archiveDate: Date.now() } };
 
-      // Actualizar el artículo
       return Article.findByIdAndUpdate(articleId, update, { new: true });
     })
     .then((updatedArticle) => {

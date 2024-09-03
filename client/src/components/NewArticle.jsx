@@ -35,7 +35,6 @@ export const NewArticle = () => {
     if (response.ok) {
       const data = await response.json();
       if (data.status === "success") {
-        // Limpiar los campos del formulario
         setTitle("");
         setAuthor("");
         setDescription("");
