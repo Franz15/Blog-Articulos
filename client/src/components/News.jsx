@@ -158,7 +158,7 @@ export const News = () => {
       return (
         <Card style={{ marginTop: 20, margin: 50 }} bg={"light"}>
           <Card.Body style={{ padding: 20 }}>
-            <Card.Text>Nada que mostrar</Card.Text>
+            <Card.Text>Nothing to show</Card.Text>
           </Card.Body>
         </Card>
       );

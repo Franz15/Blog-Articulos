@@ -148,7 +148,7 @@ export const Archive = () => {
       return (
         <Card className="mt-4 mx-auto w-75" bg={"light"}>
           <Card.Body style={{ padding: 20 }}>
-            <Card.Text>Nada que mostrar</Card.Text>
+            <Card.Text>Nothing to show</Card.Text>
           </Card.Body>
         </Card>
       );
