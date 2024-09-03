@@ -113,7 +113,15 @@ export const NewArticle = () => {
                 required
               />
             </Form.Group>
-            <div className="d-flex justify-content-end">
+            <div className="d-flex justify-content-between">
+              <Button
+                variant="secondary"
+                type="button"
+                href="/"
+                style={{ backgroundColor: "#6c757d", borderColor: "#6c757d" }}
+              >
+                Cancel
+              </Button>
               <Button
                 variant="primary"
                 type="submit"
