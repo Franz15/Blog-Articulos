@@ -1,6 +1,4 @@
-
 1. Install dependencies using npm install.
-
 
 2. To start the development server, run npm run dev. This command will start the server using Vite.
 
@@ -16,7 +14,6 @@ This will set up locally in http://localhost:5173/
 - Bootstrap
 - React Bootstrap
 - Moment.js
-- Socket.io Client
 
 ## Development Dependencies
 
@@ -31,4 +28,4 @@ This will set up locally in http://localhost:5173/
 
 ## Notes
 
-Make sure to have the backend server running to connect to the WebSocket server provided by Socket.io.
+Make sure to have the backend server running.
