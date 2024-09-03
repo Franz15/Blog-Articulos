@@ -31,7 +31,7 @@ function Header() {
               backgroundColor: "#0d6efd",
               borderColor: "#0d6efd",
             }}
-            href="/new"
+            href="/write"
           >
             New Article
           </Button>
