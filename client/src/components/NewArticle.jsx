@@ -97,9 +97,9 @@ export const NewArticle = () => {
               <Form.Control
                 type="text"
                 placeholder="Description"
+                maxLength={100}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                required
               />
             </Form.Group>
 
