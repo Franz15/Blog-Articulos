@@ -7,10 +7,15 @@ import Card from "react-bootstrap/Card";
 export const News = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [expandedCardId, setExpandedCardId] = useState(null);
 
   useEffect(() => {
     getNews();
   }, []);
+
+  const toggleExpand = (id) => {
+    setExpandedCardId(expandedCardId === id ? null : id);
+  };
 
   const getNews = async () => {
     const response = await fetch(Global.url + "list", {
@@ -84,6 +89,8 @@ export const News = () => {
       );
     } else if (articles && articles.length > 0) {
       return articles.map((article) => {
+        const isExpanded = expandedCardId === article._id;
+
         return (
           <Card
             className="mt-4 mx-auto w-75"
@@ -93,7 +100,9 @@ export const News = () => {
               borderColor: "#e0e0e0",
               borderRadius: "10px",
               boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+              cursor: "pointer",
             }}
+            onClick={() => toggleExpand(article._id)}
           >
             <Card.Body className="p-4">
               <Card.Title className="text-center">
@@ -106,7 +115,11 @@ export const News = () => {
                 {article.description}
               </Card.Subtitle>
 
-              <Card.Text className="mt-3">{article.content}</Card.Text>
+              <Card.Text className="mt-3">
+                {isExpanded
+                  ? article.content
+                  : article.content.substring(0, 100) + "..."}
+              </Card.Text>
 
               <div className="d-flex justify-content-between align-items-center mt-4">
                 <small className="text-muted">
@@ -119,13 +132,19 @@ export const News = () => {
                       borderColor: "#0d6efd",
                     }}
                     className="me-2"
-                    onClick={() => archiveArticle(article._id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      archiveArticle(article._id);
+                    }}
                   >
                     Archive
                   </Button>
                   <Button
                     variant="danger"
-                    onClick={() => deleteArticle(article._id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteArticle(article._id);
+                    }}
                   >
                     Delete
                   </Button>

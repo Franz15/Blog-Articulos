@@ -7,10 +7,15 @@ import Button from "react-bootstrap/Button";
 export const Archive = () => {
   const [archived, setArchived] = useState();
   const [loading, setLoading] = useState(true);
+  const [expandedCardId, setExpandedCardId] = useState(null);
 
   useEffect(() => {
     getArchived();
   }, []);
+
+  const toggleExpand = (id) => {
+    setExpandedCardId(expandedCardId === id ? null : id);
+  };
 
   const getArchived = async () => {
     const response = await fetch(Global.url + "list", {
@@ -84,6 +89,7 @@ export const Archive = () => {
       );
     } else if (archived && archived.length > 0) {
       return archived.map((article) => {
+        const isExpanded = expandedCardId === article._id;
         return (
           <Card
             className="mt-4 mx-auto w-75"
@@ -93,7 +99,9 @@ export const Archive = () => {
               borderColor: "#e0e0e0",
               borderRadius: "10px",
               boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+              cursor: "pointer",
             }}
+            onClick={() => toggleExpand(article._id)}
           >
             <Card.Body className="p-4">
               <Card.Title className="text-center">
@@ -106,7 +114,11 @@ export const Archive = () => {
                 {article.description}
               </Card.Subtitle>
 
-              <Card.Text className="mt-3">{article.content}</Card.Text>
+              <Card.Text className="mt-3">
+                {isExpanded
+                  ? article.content
+                  : article.content.substring(0, 100) + "..."}
+              </Card.Text>
 
               <div className="d-flex justify-content-between align-items-center mt-4">
                 <small className="text-muted">
